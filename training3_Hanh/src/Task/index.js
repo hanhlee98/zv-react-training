@@ -1,7 +1,7 @@
 import React from 'react'
 
 const keyCode = {
-    13: ' enter',
+    13: 'enter',
     8: 'backspace',
     9: 'tab',
     16: 'shift',
@@ -15,7 +15,8 @@ const keyCode = {
     35: 'end',
     36: 'home',
     37: 'left arrow',
-    38: 'up arrow	'
+    38: 'up arrow',
+    46: ''
 }
 
 
@@ -40,20 +41,15 @@ class Task extends React.Component {
         })
 
     }
-    handleKeyPress = (e) => {
+    handleKeyDown = (e) => {
         const {openModalMode, logKeyArr} = this.state
-
         if (openModalMode) {
-            if (keyCode[e.charCode]) {
-                this.setState({
-                    logKeyArr: [...logKeyArr, keyCode[e.charCode]]
-                })
-            }
-            else {
-                this.setState({
-                    logKeyArr: [...logKeyArr, e.key]
-                })
-            }
+            this.setState({
+                logKeyArr: [...logKeyArr, {
+                    key: Math.random(),
+                    val: keyCode[e.keyCode] ? keyCode[e.keyCode] : e.key
+                }]
+            })
         }
     }
 
@@ -61,9 +57,9 @@ class Task extends React.Component {
         const {inputVal, logKeyArr} = this.state
         return (
             <div>
-                <input value={inputVal} onChange={this.handleChange} onKeyPress={this.handleKeyPress}/>
+                <input value={inputVal} onChange={this.handleChange} onKeyDown={this.handleKeyDown}/>
                 <button onClick={this.handleOpenModal}> Open Modal</button>
-                {logKeyArr.map((item) => (<div key={Math.random()}>{item}</div>))}
+                {logKeyArr.map((item) => (<div key={item.key}>{item.val}</div>))}
             </div>
         )
     }
