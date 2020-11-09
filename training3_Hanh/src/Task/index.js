@@ -1,5 +1,24 @@
 import React from 'react'
 
+const keyCode = {
+    13: ' enter',
+    8: 'backspace',
+    9: 'tab',
+    16: 'shift',
+    17: 'ctrl',
+    18: 'alt',
+    19: 'pause/break',
+    27: 'caps lock20escape',
+    32: '(space)',
+    33: 'page up',
+    34: 'page down',
+    35: 'end',
+    36: 'home',
+    37: 'left arrow',
+    38: 'up arrow	'
+}
+
+
 class Task extends React.Component {
     constructor(props) {
         super(props);
@@ -25,20 +44,12 @@ class Task extends React.Component {
         const {openModalMode, logKeyArr} = this.state
 
         if (openModalMode) {
-            console.log(e.charCode)
-            if (e.charCode === 13) {
+            if (keyCode[e.charCode]) {
                 this.setState({
-                    logKeyArr: [...logKeyArr, 'Enter']
+                    logKeyArr: [...logKeyArr, keyCode[e.charCode]]
                 })
-            } else if (e.charCode === 32) {
-                this.setState({
-                    logKeyArr: [...logKeyArr, 'Space']
-                })
-            } else if (e.which === 46) {
-                this.setState({
-                    logKeyArr: [...logKeyArr, 'Delete']
-                })
-            } else {
+            }
+            else {
                 this.setState({
                     logKeyArr: [...logKeyArr, e.key]
                 })
