@@ -1,7 +1,6 @@
 import {useState, useCallback} from 'react';
 import _ from 'lodash';
 import axios from 'axios';
-
 import {Input, AutoComplete} from 'antd';
 
 const Task2 = () => {
@@ -53,7 +52,7 @@ const Task2 = () => {
         }
         main().catch(err => console.error(err))
 
-    },200), [])
+    }, 200), [])
 
     const onSelect = (value) => {
         console.log('onSelect', value);
