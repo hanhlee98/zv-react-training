@@ -12,7 +12,6 @@ const Tast3 = () => {
     }, [])
 
     const handleStart = useCallback(() => {
-        console.log( (_.toNumber(inputVal)))
         if (!inputVal) {
             alert("Please enter a number")
             return
@@ -23,12 +22,13 @@ const Tast3 = () => {
             return
         }
         if (inputVal < 0) {
-            alert("Invalid input. Must be parseInta number")
+            alert("Invalid input. Must be parseIn number")
             setInputVal('')
             return
         }
         setIsValidInput(true)
         setCount(parseInt(inputVal))
+        setIsStopCountDown(false)
     }, [inputVal])
 
     const handleStop = useCallback(() => {
