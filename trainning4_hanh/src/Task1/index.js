@@ -1,12 +1,12 @@
-import {useState, useEffect, useMemo} from 'react';
+import {useState, useEffect, useMemo, useCallback} from 'react';
 import _ from 'lodash';
 import axios from 'axios';
 
 const Task1 = () => {
     const [jokes, setJokes] = useState([])
     const [isLoading, setLoading] = useState(false)
-    const reqFunc = useMemo(() => {
-        return async () => {
+    const reqFunc = useCallback(() => {
+        const main = async () => {
             setLoading(true)
             try {
                 const res = await axios('https://official-joke-api.appspot.com/random_joke')
@@ -17,18 +17,18 @@ const Task1 = () => {
             } finally {
                 setLoading(false)
             }
-
         }
+        main().catch(e => console.log(e))
     }, [])
 
     const getMoreJokes = useMemo(() => {
         return _.debounce(() => {
-            reqFunc().catch(e => console.log(e))
+            reqFunc()
         }, 1000)
     }, [reqFunc])
 
     useEffect(() => {
-        reqFunc().catch(err => console.error(err))
+        reqFunc()
     }, [reqFunc])
 
     return (
