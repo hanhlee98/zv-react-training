@@ -27,6 +27,32 @@ const Task = () => {
     const [logKeyArr, setLogKeyArr] = useState([])
     const inputRef = useRef()
 
+    const handleKeyDown = useCallback(
+        (e) => {
+            setLogKeyArr((logKeyArr) =>
+                ([...logKeyArr, {
+                    key: Math.random(),
+                    val: keyCode[e.keyCode] ? keyCode[e.keyCode] : e.key
+                }])
+            )
+        }, [])
+
+    useEffect(() => {
+        if (!openModalMode) {
+            return () => {
+            }
+        }
+        const {current} = inputRef
+        if (!(inputRef && current)) {
+            return () => {
+            }
+        }
+        current.addEventListener('keydown', handleKeyDown)
+        return () => {
+            current.removeEventListener('keydown', handleKeyDown)
+        }
+    }, [openModalMode, handleKeyDown])
+
     const handleOpenModal = useCallback(() => {
         setModalMode(true)
     }, [])
@@ -35,31 +61,6 @@ const Task = () => {
         setVal(e.target.value)
 
     }, [])
-
-    useEffect(() => {
-        if (!openModalMode) {
-            return () => {
-            }
-        }
-        if (!inputRef.current) {
-            return () => {
-            }
-        }
-        const handleKeyDown = (e) => {
-            if (openModalMode) {
-                setLogKeyArr((logKeyArr) =>
-                    ([...logKeyArr, {
-                        key: Math.random(),
-                        val: keyCode[e.keyCode] ? keyCode[e.keyCode] : e.key
-                    }])
-                )
-            }
-        }
-        inputRef.current.addEventListener('keydown', handleKeyDown)
-        return () => {
-            inputRef.current.removeEventListener('keydown', handleKeyDown)
-        }
-    }, [openModalMode])
 
     return (
         <div>
