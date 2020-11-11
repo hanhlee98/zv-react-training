@@ -5,30 +5,27 @@ import axios from 'axios';
 const Task1 = () => {
     const [jokes, setJokes] = useState([])
     const [isLoading, setLoading] = useState(false)
-    const reqFunc = useCallback(() => {
-        const main = async () => {
-            setLoading(true)
-            try {
-                const res = await axios('https://official-joke-api.appspot.com/random_joke')
-                const data = res.data
-                setJokes(jokes => [...jokes, data])
-            } catch (e) {
-                console.error(e)
-            } finally {
-                setLoading(false)
-            }
+    const reqFunc = useCallback(async () => {
+        setLoading(true)
+        try {
+            const res = await axios('https://official-joke-api.appspot.com/random_joke')
+            const data = res.data
+            setJokes(jokes => [...jokes, data])
+        } catch (e) {
+            console.error(e)
+        } finally {
+            setLoading(false)
         }
-        main().catch(e => console.log(e))
     }, [])
 
     const getMoreJokes = useMemo(() => {
         return _.debounce(() => {
-            reqFunc()
+            reqFunc().catch(console.log)
         }, 1000)
     }, [reqFunc])
 
     useEffect(() => {
-        reqFunc()
+        reqFunc().catch(console.log)
     }, [reqFunc])
 
     return (
